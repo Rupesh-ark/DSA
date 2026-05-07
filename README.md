@@ -1,4 +1,6 @@
-# DSA Practice - How to Use
+# DSA Practice
+
+C++17 problem-solving workspace with a Makefile-driven workflow.
 
 ## Create a New Problem
 
