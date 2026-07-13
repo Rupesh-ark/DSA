@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import subprocess
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -15,6 +16,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "data" / "neetcode150.csv"
 PROGRESS_PATH = ROOT / "data" / "progress.json"
+CHALLENGES_DIR = ROOT / "challenges"
 REVIEW_INTERVALS = (1, 7, 21)
 SESSION_FIELDS = {
     "date",
@@ -145,7 +147,7 @@ def sessions_for(slug: str, sessions: list[dict[str, Any]]) -> list[dict[str, An
 
 def independent_successes(slug: str, sessions: list[dict[str, Any]]) -> int:
     return sum(
-        session["outcome"] == "independent"
+        session["outcome"] == "independent" and session["tests_passed"]
         for session in sessions_for(slug, sessions)
     )
 
@@ -182,8 +184,8 @@ def due_reviews(
 def next_new_problem(
     catalogue: list[Problem], sessions: list[dict[str, Any]]
 ) -> Problem | None:
-    started = {session["problem"] for session in sessions}
-    return next((problem for problem in catalogue if problem.slug not in started), None)
+    solved = independent_slugs(sessions)
+    return next((problem for problem in catalogue if problem.slug not in solved), None)
 
 
 def boss_problem(
@@ -207,7 +209,11 @@ def calculate_xp(sessions: list[dict[str, Any]]) -> int:
             xp += 20
         if session["complexity_explained"]:
             xp += 10
-        if session["kind"] == "review" and session["outcome"] == "independent":
+        if (
+            session["kind"] == "review"
+            and session["outcome"] == "independent"
+            and session["tests_passed"]
+        ):
             xp += 20
     return xp
 
@@ -237,7 +243,7 @@ def independent_slugs(sessions: list[dict[str, Any]]) -> set[str]:
     return {
         session["problem"]
         for session in sessions
-        if session["outcome"] == "independent"
+        if session["outcome"] == "independent" and session["tests_passed"]
     }
 
 
@@ -258,24 +264,59 @@ def reference_date(value: str | None) -> date:
     return parse_date(value) if value else date.today()
 
 
+def challenge_text(problem: Problem, directory: Path = CHALLENGES_DIR) -> str | None:
+    path = directory / f"{problem.slug}.md"
+    return path.read_text(encoding="utf-8").strip() if path.is_file() else None
+
+
+def terminal_text(markdown: str) -> str:
+    rendered = []
+    for line in markdown.splitlines():
+        if line.startswith("# "):
+            line = line[2:].upper()
+        elif line.startswith("## "):
+            line = line[3:].upper()
+        elif line.startswith("```"):
+            continue
+        line = line.replace("**", "").replace("`", "")
+        rendered.append(line.rstrip())
+    return "\n".join(rendered)
+
+
+def show_problem(problem: Problem) -> None:
+    challenge = challenge_text(problem)
+    if challenge:
+        print(terminal_text(challenge))
+        return
+    print(f"{problem.title} | {problem.difficulty} | {problem.category}")
+    print(f"Optional reference: {problem.url}")
+    print(f"Exercise: exercises/neetcode150/{problem.slug}.cpp")
+
+
 def show_today(catalogue: list[Problem], progress: dict[str, Any], today: date) -> None:
     sessions = progress["sessions"]
     active_dates = {session["date"] for session in sessions}
     day_number = len(active_dates) if today.isoformat() in active_dates else len(active_dates) + 1
     current_streak, _ = streaks(sessions, today)
     reviews = due_reviews(catalogue, sessions, today)
+    main_problem = next_new_problem(catalogue, sessions)
+    visible_reviews = reviews
+    if today.weekday() != 6 and main_problem:
+        visible_reviews = [
+            review for review in reviews if review.problem.slug != main_problem.slug
+        ]
 
     print(f"NEETCODE 150 - DAY {day_number}")
     print(f"{calculate_xp(sessions)} XP | Current streak: {current_streak} day(s)")
     print()
     print("DUE REVIEWS")
-    if reviews:
-        for review in reviews[:2]:
+    if visible_reviews:
+        for review in visible_reviews[:2]:
             print(
                 f"- {review.problem.title} ({review.label}, due {review.due_on.isoformat()})"
             )
-        if len(reviews) > 2:
-            print(f"- {len(reviews) - 2} more in the review backlog")
+        if len(visible_reviews) > 2:
+            print(f"- {len(visible_reviews) - 2} more in the review backlog")
     else:
         print("- None today")
 
@@ -284,28 +325,25 @@ def show_today(catalogue: list[Problem], progress: dict[str, Any], today: date) 
         problem = boss_problem(catalogue, sessions)
         print("SUNDAY BOSS FIGHT")
         if problem:
-            print(f"{problem.title} | {problem.difficulty} | {problem.category}")
-            print(problem.url)
+            show_problem(problem)
         print()
         print("90-MINUTE PLAN")
         print("  60 min  Reviews and weak spots")
         print("  20 min  Boss fight explanation or reimplementation")
         print("  10 min  Log takeaways and prepare the next week")
     else:
-        problem = next_new_problem(catalogue, sessions)
         print("TODAY'S QUEST")
-        if problem:
-            print(f"{problem.title} | {problem.difficulty} | {problem.category}")
-            print(problem.url)
+        if main_problem:
+            show_problem(main_problem)
         else:
-            print("All 150 problems have been attempted. Focus on due reviews.")
+            print("All 150 problems have passed independently. Focus on due reviews.")
         print()
         print("90-MINUTE PLAN")
-        if reviews:
+        if visible_reviews:
             print("  20 min  Due reviews")
         else:
             print("  20 min  Examples and Big-O warm-up")
-        print("  55 min  New problem")
+        print("  55 min  Today's main problem")
         print("  15 min  Complexity, takeaway, and progress log")
 
 
@@ -368,6 +406,44 @@ def prompt_minutes(default: int) -> int:
         print("Minutes must be between 1 and 180.")
 
 
+def outcome_for_result(tests_passed: bool, help_used: str) -> str:
+    if not tests_passed:
+        return "attempted"
+    return "independent" if help_used == "none" else "helped"
+
+
+def run_problem_tests(
+    slug: str, root: Path = ROOT, runner: Any = None
+) -> bool:
+    exercise = f"neetcode150/{slug}"
+    source = root / "exercises" / f"{exercise}.cpp"
+    if not source.is_file():
+        print(f"Missing exercise: {source}")
+        return False
+
+    if runner is None:
+        runner = subprocess.run
+    result = runner(
+        ["make", "--no-print-directory", "run", f"EXERCISE={exercise}"],
+        cwd=root,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def append_session(
+    catalogue: list[Problem],
+    progress: dict[str, Any],
+    session: dict[str, Any],
+    path: Path = PROGRESS_PATH,
+) -> tuple[dict[str, Any], int]:
+    before_xp = calculate_xp(progress["sessions"])
+    updated = {"version": 1, "sessions": [*progress["sessions"], session]}
+    validate_progress(updated, catalogue)
+    save_progress(updated, path)
+    return updated, calculate_xp(updated["sessions"]) - before_xp
+
+
 def log_session(catalogue: list[Problem], progress: dict[str, Any], today: date) -> None:
     sessions = progress["sessions"]
     reviews = due_reviews(catalogue, sessions, today)
@@ -406,11 +482,7 @@ def log_session(catalogue: list[Problem], progress: dict[str, Any], today: date)
         "takeaway": input("One-sentence takeaway (optional): ").strip(),
     }
 
-    before_xp = calculate_xp(sessions)
-    updated_progress = {"version": 1, "sessions": [*sessions, new_session]}
-    validate_progress(updated_progress, catalogue)
-    save_progress(updated_progress)
-    earned = calculate_xp(updated_progress["sessions"]) - before_xp
+    updated_progress, earned = append_session(catalogue, progress, new_session)
     problem = problem_by_slug[slug]
     print()
     print(f"Recorded {problem.title}. +{earned} XP")
@@ -419,6 +491,64 @@ def log_session(catalogue: list[Problem], progress: dict[str, Any], today: date)
         print(f"Next review: {due_on.isoformat()}")
     else:
         print("Mastered: all scheduled reviews completed independently.")
+
+
+def finish_session(
+    catalogue: list[Problem], progress: dict[str, Any], slug: str, today: date
+) -> None:
+    problem_by_slug = {problem.slug: problem for problem in catalogue}
+    if slug not in problem_by_slug:
+        raise ValueError(f"Unknown problem slug: {slug}.")
+
+    problem = problem_by_slug[slug]
+    sessions = progress["sessions"]
+    history = sessions_for(slug, sessions)
+    if any(session["date"] == today.isoformat() for session in history):
+        raise ValueError("That problem already has a session recorded today.")
+
+    main_problem = next_new_problem(catalogue, sessions)
+    if not history and main_problem and main_problem.slug != slug:
+        raise ValueError(
+            f"{problem.title} is locked. Finish {main_problem.title} first."
+        )
+
+    kind = "review" if history else "new"
+    print(f"Verifying {problem.title}...")
+    tests_passed = run_problem_tests(slug)
+    print("Tests passed." if tests_passed else "Tests did not pass.")
+
+    help_used = "none"
+    if tests_passed:
+        help_used = prompt_choice("Help used", ("none", "hint", "solution"), "none")
+    outcome = outcome_for_result(tests_passed, help_used)
+    new_session = {
+        "date": today.isoformat(),
+        "problem": slug,
+        "kind": kind,
+        "outcome": outcome,
+        "minutes": prompt_minutes(20 if kind == "review" else 55),
+        "tests_passed": tests_passed,
+        "complexity_explained": prompt_bool(
+            "Can you explain the time and space complexity?"
+        ),
+        "takeaway": input("One-sentence takeaway (optional): ").strip(),
+    }
+
+    updated_progress, earned = append_session(catalogue, progress, new_session)
+    print()
+    print(f"Recorded {problem.title} as {outcome}. +{earned} XP")
+
+    if tests_passed and outcome == "independent":
+        next_problem = next_new_problem(catalogue, updated_progress["sessions"])
+        if main_problem and main_problem.slug == slug and next_problem:
+            print(f"Unlocked next: {next_problem.title}")
+        due_on = next_review_date(slug, updated_progress["sessions"])
+        if due_on:
+            print(f"Next review: {due_on.isoformat()}")
+        else:
+            print("Mastered: all scheduled reviews completed independently.")
+    elif main_problem and main_problem.slug == slug:
+        print(f"Main quest remains: {problem.title}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -430,6 +560,8 @@ def build_parser() -> argparse.ArgumentParser:
             "--date", help="Use YYYY-MM-DD instead of today's local date."
         )
     subparsers.add_parser("log")
+    finish_parser = subparsers.add_parser("finish")
+    finish_parser.add_argument("--problem", required=True, help="NeetCode problem slug")
     return parser
 
 
@@ -442,8 +574,10 @@ def main() -> int:
             show_today(catalogue, progress, reference_date(args.date))
         elif args.command == "stats":
             show_stats(catalogue, progress, reference_date(args.date))
-        else:
+        elif args.command == "log":
             log_session(catalogue, progress, date.today())
+        else:
+            finish_session(catalogue, progress, args.problem, date.today())
     except (OSError, ValueError) as error:
         print(f"Error: {error}")
         return 1

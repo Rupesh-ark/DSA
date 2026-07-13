@@ -5,6 +5,8 @@ import unittest
 from collections import Counter
 from datetime import date
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock
 
 
 TRACKER_PATH = Path(__file__).resolve().parents[1] / "tools" / "tracker.py"
@@ -56,6 +58,96 @@ class TrackerTests(unittest.TestCase):
         self.assertEqual(
             tracker.next_new_problem(self.catalogue, sessions).slug, "is-anagram"
         )
+
+    def test_attempted_or_helped_problem_remains_locked(self) -> None:
+        attempted = [
+            session("2026-07-13", outcome="attempted", tests_passed=False)
+        ]
+        helped = [session("2026-07-13", outcome="helped")]
+        self.assertEqual(
+            tracker.next_new_problem(self.catalogue, attempted).slug,
+            "duplicate-integer",
+        )
+        self.assertEqual(
+            tracker.next_new_problem(self.catalogue, helped).slug,
+            "duplicate-integer",
+        )
+
+    def test_independent_result_requires_passing_tests(self) -> None:
+        sessions = [session("2026-07-13", tests_passed=False)]
+        self.assertEqual(
+            tracker.next_new_problem(self.catalogue, sessions).slug,
+            "duplicate-integer",
+        )
+        self.assertEqual(tracker.independent_successes("duplicate-integer", sessions), 0)
+
+    def test_finish_outcome_comes_from_tests_and_help(self) -> None:
+        self.assertEqual(tracker.outcome_for_result(False, "none"), "attempted")
+        self.assertEqual(tracker.outcome_for_result(True, "hint"), "helped")
+        self.assertEqual(tracker.outcome_for_result(True, "solution"), "helped")
+        self.assertEqual(tracker.outcome_for_result(True, "none"), "independent")
+
+    def test_problem_runner_uses_make_exit_code(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "exercises" / "neetcode150" / "duplicate-integer.cpp"
+            source.parent.mkdir(parents=True)
+            source.write_text("int main() {}\n", encoding="utf-8")
+
+            passing_runner = Mock(return_value=SimpleNamespace(returncode=0))
+            failing_runner = Mock(return_value=SimpleNamespace(returncode=1))
+            self.assertTrue(
+                tracker.run_problem_tests(
+                    "duplicate-integer", root=root, runner=passing_runner
+                )
+            )
+            self.assertFalse(
+                tracker.run_problem_tests(
+                    "duplicate-integer", root=root, runner=failing_runner
+                )
+            )
+            passing_runner.assert_called_once_with(
+                [
+                    "make",
+                    "--no-print-directory",
+                    "run",
+                    "EXERCISE=neetcode150/duplicate-integer",
+                ],
+                cwd=root,
+                check=False,
+            )
+
+    def test_weekly_challenge_pack_is_local(self) -> None:
+        for problem in self.catalogue[:6]:
+            with self.subTest(problem=problem.slug):
+                challenge = tracker.challenge_text(problem)
+                self.assertIsNotNone(challenge)
+                self.assertIn("## Challenge", challenge)
+                self.assertIn("## Examples", challenge)
+                self.assertIn("## Warm-up", challenge)
+                self.assertIn("## Function contract", challenge)
+                self.assertIn("## Build", challenge)
+                self.assertIn(
+                    f"exercises/neetcode150/{problem.slug}.cpp", challenge
+                )
+                self.assertIn(f"make finish PROBLEM={problem.slug}", challenge)
+                self.assertIn(problem.url, challenge)
+                harness = (
+                    tracker.ROOT
+                    / "tests"
+                    / "neetcode150"
+                    / f"{problem.slug}_test.cpp"
+                )
+                self.assertTrue(harness.is_file())
+
+    def test_challenge_markdown_is_readable_in_the_terminal(self) -> None:
+        rendered = tracker.terminal_text(
+            "# Title\n\n**Difficulty:** Easy\n\n## Example\n\n```text\n[1] -> false\n```"
+        )
+        self.assertIn("TITLE", rendered)
+        self.assertIn("EXAMPLE", rendered)
+        self.assertNotIn("**", rendered)
+        self.assertNotIn("```", rendered)
 
     def test_review_intervals_lead_to_mastery(self) -> None:
         sessions = [session("2026-07-01")]

@@ -39,6 +39,10 @@ Do not spend the whole session staring at an empty editor:
 Using help is recorded honestly and carries no penalty. The review system will
 bring the problem back until it can be solved independently.
 
+Use `make run EXERCISE=...` as often as needed while coding. Run
+`make finish PROBLEM=...` once when ending the session; it compiles and runs the
+exercise before recording the result.
+
 ## Progress states and reviews
 
 A problem moves through these useful states:
@@ -56,6 +60,11 @@ After the first independent solution, the tracker schedules:
 Four independent successes in total mark the problem as mastered. An attempted
 or assisted review returns the problem the following day without resetting prior
 successes.
+
+The next catalogue problem unlocks only when the current problem both passes its
+local tests and is completed without a hint or solution. Compilation failures,
+test failures, and helped solutions remain the main quest. Explaining complexity
+earns XP but does not control unlocking.
 
 ## XP
 

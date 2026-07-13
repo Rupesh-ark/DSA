@@ -12,17 +12,23 @@ hiding progress in an external service.
 
 ## Start a session
 
-See today's new problem and due reviews:
+See today's local challenge, warm-up, source path, and due reviews:
 
 ```sh
 make today
 ```
 
-After the focused session, record the result interactively:
+Use `make run` repeatedly while implementing. At the end of the session, verify
+the local tests and record the result together:
 
 ```sh
-make log
+make run EXERCISE=neetcode150/duplicate-integer
+make finish PROBLEM=duplicate-integer
 ```
+
+`make finish` gets the test result from the executable. It asks only about help,
+complexity, focused time, and your takeaway. Use `make log` as a manual fallback
+for a session that has no local C++ exercise.
 
 Check overall progress:
 
@@ -55,11 +61,15 @@ See every available command with `make help`. Generated programs live in
 
 ## Daily workflow
 
-1. Run `make today` and open the suggested problem.
+1. Run `make today` and read the local challenge card.
 2. Work through examples and a straightforward approach before coding.
 3. Use the stuck ladder in `ROADMAP.md` instead of immediately viewing a solution.
-4. Test the implementation and explain its time and space complexity.
-5. Run `make log`, then commit the solution and progress record.
+4. Use `make run` while coding and explain the final time and space complexity.
+5. Run `make finish` once, then commit the solution and progress record.
+
+The next challenge unlocks only after the current exercise passes locally and is
+reported as independently solved. A failing or helped solution remains the main
+quest for the next focused session.
 
 The first three Arrays & Hashing problems are also a diagnostic. They reveal
 whether extra C++ or Big-O practice is useful without delaying progress through
