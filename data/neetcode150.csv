@@ -1,0 +1,151 @@
+slug,title,category,difficulty,url
+duplicate-integer,Contains Duplicate,Arrays & Hashing,Easy,https://neetcode.io/problems/duplicate-integer
+is-anagram,Valid Anagram,Arrays & Hashing,Easy,https://neetcode.io/problems/is-anagram
+two-integer-sum,Two Sum,Arrays & Hashing,Easy,https://neetcode.io/problems/two-integer-sum
+anagram-groups,Group Anagrams,Arrays & Hashing,Medium,https://neetcode.io/problems/anagram-groups
+top-k-elements-in-list,Top K Frequent Elements,Arrays & Hashing,Medium,https://neetcode.io/problems/top-k-elements-in-list
+string-encode-and-decode,Encode and Decode Strings,Arrays & Hashing,Medium,https://neetcode.io/problems/string-encode-and-decode
+products-of-array-discluding-self,Product of Array Except Self,Arrays & Hashing,Medium,https://neetcode.io/problems/products-of-array-discluding-self
+valid-sudoku,Valid Sudoku,Arrays & Hashing,Medium,https://neetcode.io/problems/valid-sudoku
+longest-consecutive-sequence,Longest Consecutive Sequence,Arrays & Hashing,Medium,https://neetcode.io/problems/longest-consecutive-sequence
+is-palindrome,Valid Palindrome,Two Pointers,Easy,https://neetcode.io/problems/is-palindrome
+two-integer-sum-ii,Two Sum II Input Array Is Sorted,Two Pointers,Medium,https://neetcode.io/problems/two-integer-sum-ii
+three-integer-sum,3Sum,Two Pointers,Medium,https://neetcode.io/problems/three-integer-sum
+max-water-container,Container With Most Water,Two Pointers,Medium,https://neetcode.io/problems/max-water-container
+trapping-rain-water,Trapping Rain Water,Two Pointers,Hard,https://neetcode.io/problems/trapping-rain-water
+buy-and-sell-crypto,Best Time to Buy And Sell Stock,Sliding Window,Easy,https://neetcode.io/problems/buy-and-sell-crypto
+longest-substring-without-duplicates,Longest Substring Without Repeating Characters,Sliding Window,Medium,https://neetcode.io/problems/longest-substring-without-duplicates
+longest-repeating-substring-with-replacement,Longest Repeating Character Replacement,Sliding Window,Medium,https://neetcode.io/problems/longest-repeating-substring-with-replacement
+permutation-string,Permutation In String,Sliding Window,Medium,https://neetcode.io/problems/permutation-string
+minimum-window-with-characters,Minimum Window Substring,Sliding Window,Hard,https://neetcode.io/problems/minimum-window-with-characters
+sliding-window-maximum,Sliding Window Maximum,Sliding Window,Hard,https://neetcode.io/problems/sliding-window-maximum
+validate-parentheses,Valid Parentheses,Stack,Easy,https://neetcode.io/problems/validate-parentheses
+minimum-stack,Min Stack,Stack,Medium,https://neetcode.io/problems/minimum-stack
+evaluate-reverse-polish-notation,Evaluate Reverse Polish Notation,Stack,Medium,https://neetcode.io/problems/evaluate-reverse-polish-notation
+daily-temperatures,Daily Temperatures,Stack,Medium,https://neetcode.io/problems/daily-temperatures
+car-fleet,Car Fleet,Stack,Medium,https://neetcode.io/problems/car-fleet
+largest-rectangle-in-histogram,Largest Rectangle In Histogram,Stack,Hard,https://neetcode.io/problems/largest-rectangle-in-histogram
+binary-search,Binary Search,Binary Search,Easy,https://neetcode.io/problems/binary-search
+search-2d-matrix,Search a 2D Matrix,Binary Search,Medium,https://neetcode.io/problems/search-2d-matrix
+eating-bananas,Koko Eating Bananas,Binary Search,Medium,https://neetcode.io/problems/eating-bananas
+find-minimum-in-rotated-sorted-array,Find Minimum In Rotated Sorted Array,Binary Search,Medium,https://neetcode.io/problems/find-minimum-in-rotated-sorted-array
+find-target-in-rotated-sorted-array,Search In Rotated Sorted Array,Binary Search,Medium,https://neetcode.io/problems/find-target-in-rotated-sorted-array
+time-based-key-value-store,Time Based Key Value Store,Binary Search,Medium,https://neetcode.io/problems/time-based-key-value-store
+median-of-two-sorted-arrays,Median of Two Sorted Arrays,Binary Search,Hard,https://neetcode.io/problems/median-of-two-sorted-arrays
+reverse-a-linked-list,Reverse Linked List,Linked List,Easy,https://neetcode.io/problems/reverse-a-linked-list
+merge-two-sorted-linked-lists,Merge Two Sorted Lists,Linked List,Easy,https://neetcode.io/problems/merge-two-sorted-linked-lists
+linked-list-cycle-detection,Linked List Cycle,Linked List,Easy,https://neetcode.io/problems/linked-list-cycle-detection
+reorder-linked-list,Reorder List,Linked List,Medium,https://neetcode.io/problems/reorder-linked-list
+remove-node-from-end-of-linked-list,Remove Nth Node From End of List,Linked List,Medium,https://neetcode.io/problems/remove-node-from-end-of-linked-list
+copy-linked-list-with-random-pointer,Copy List With Random Pointer,Linked List,Medium,https://neetcode.io/problems/copy-linked-list-with-random-pointer
+add-two-numbers,Add Two Numbers,Linked List,Medium,https://neetcode.io/problems/add-two-numbers
+find-duplicate-integer,Find The Duplicate Number,Linked List,Medium,https://neetcode.io/problems/find-duplicate-integer
+lru-cache,LRU Cache,Linked List,Medium,https://neetcode.io/problems/lru-cache
+merge-k-sorted-linked-lists,Merge K Sorted Lists,Linked List,Hard,https://neetcode.io/problems/merge-k-sorted-linked-lists
+reverse-nodes-in-k-group,Reverse Nodes In K Group,Linked List,Hard,https://neetcode.io/problems/reverse-nodes-in-k-group
+invert-a-binary-tree,Invert Binary Tree,Trees,Easy,https://neetcode.io/problems/invert-a-binary-tree
+depth-of-binary-tree,Maximum Depth of Binary Tree,Trees,Easy,https://neetcode.io/problems/depth-of-binary-tree
+binary-tree-diameter,Diameter of Binary Tree,Trees,Easy,https://neetcode.io/problems/binary-tree-diameter
+balanced-binary-tree,Balanced Binary Tree,Trees,Easy,https://neetcode.io/problems/balanced-binary-tree
+same-binary-tree,Same Tree,Trees,Easy,https://neetcode.io/problems/same-binary-tree
+subtree-of-a-binary-tree,Subtree of Another Tree,Trees,Easy,https://neetcode.io/problems/subtree-of-a-binary-tree
+lowest-common-ancestor-in-binary-search-tree,Lowest Common Ancestor of a Binary Search Tree,Trees,Medium,https://neetcode.io/problems/lowest-common-ancestor-in-binary-search-tree
+level-order-traversal-of-binary-tree,Binary Tree Level Order Traversal,Trees,Medium,https://neetcode.io/problems/level-order-traversal-of-binary-tree
+binary-tree-right-side-view,Binary Tree Right Side View,Trees,Medium,https://neetcode.io/problems/binary-tree-right-side-view
+count-good-nodes-in-binary-tree,Count Good Nodes In Binary Tree,Trees,Medium,https://neetcode.io/problems/count-good-nodes-in-binary-tree
+valid-binary-search-tree,Validate Binary Search Tree,Trees,Medium,https://neetcode.io/problems/valid-binary-search-tree
+kth-smallest-integer-in-bst,Kth Smallest Element In a Bst,Trees,Medium,https://neetcode.io/problems/kth-smallest-integer-in-bst
+binary-tree-from-preorder-and-inorder-traversal,Construct Binary Tree From Preorder And Inorder Traversal,Trees,Medium,https://neetcode.io/problems/binary-tree-from-preorder-and-inorder-traversal
+binary-tree-maximum-path-sum,Binary Tree Maximum Path Sum,Trees,Hard,https://neetcode.io/problems/binary-tree-maximum-path-sum
+serialize-and-deserialize-binary-tree,Serialize And Deserialize Binary Tree,Trees,Hard,https://neetcode.io/problems/serialize-and-deserialize-binary-tree
+kth-largest-integer-in-a-stream,Kth Largest Element In a Stream,Heap / Priority Queue,Easy,https://neetcode.io/problems/kth-largest-integer-in-a-stream
+last-stone-weight,Last Stone Weight,Heap / Priority Queue,Easy,https://neetcode.io/problems/last-stone-weight
+k-closest-points-to-origin,K Closest Points to Origin,Heap / Priority Queue,Medium,https://neetcode.io/problems/k-closest-points-to-origin
+kth-largest-element-in-an-array,Kth Largest Element In An Array,Heap / Priority Queue,Medium,https://neetcode.io/problems/kth-largest-element-in-an-array
+task-scheduling,Task Scheduler,Heap / Priority Queue,Medium,https://neetcode.io/problems/task-scheduling
+design-twitter-feed,Design Twitter,Heap / Priority Queue,Medium,https://neetcode.io/problems/design-twitter-feed
+find-median-in-a-data-stream,Find Median From Data Stream,Heap / Priority Queue,Hard,https://neetcode.io/problems/find-median-in-a-data-stream
+subsets,Subsets,Backtracking,Medium,https://neetcode.io/problems/subsets
+combination-target-sum,Combination Sum,Backtracking,Medium,https://neetcode.io/problems/combination-target-sum
+combination-target-sum-ii,Combination Sum II,Backtracking,Medium,https://neetcode.io/problems/combination-target-sum-ii
+permutations,Permutations,Backtracking,Medium,https://neetcode.io/problems/permutations
+subsets-ii,Subsets II,Backtracking,Medium,https://neetcode.io/problems/subsets-ii
+generate-parentheses,Generate Parentheses,Backtracking,Medium,https://neetcode.io/problems/generate-parentheses
+search-for-word,Word Search,Backtracking,Medium,https://neetcode.io/problems/search-for-word
+palindrome-partitioning,Palindrome Partitioning,Backtracking,Medium,https://neetcode.io/problems/palindrome-partitioning
+combinations-of-a-phone-number,Letter Combinations of a Phone Number,Backtracking,Medium,https://neetcode.io/problems/combinations-of-a-phone-number
+n-queens,N Queens,Backtracking,Hard,https://neetcode.io/problems/n-queens
+implement-prefix-tree,Implement Trie Prefix Tree,Tries,Medium,https://neetcode.io/problems/implement-prefix-tree
+design-word-search-data-structure,Design Add And Search Words Data Structure,Tries,Medium,https://neetcode.io/problems/design-word-search-data-structure
+search-for-word-ii,Word Search II,Tries,Hard,https://neetcode.io/problems/search-for-word-ii
+count-number-of-islands,Number of Islands,Graphs,Medium,https://neetcode.io/problems/count-number-of-islands
+max-area-of-island,Max Area of Island,Graphs,Medium,https://neetcode.io/problems/max-area-of-island
+clone-graph,Clone Graph,Graphs,Medium,https://neetcode.io/problems/clone-graph
+islands-and-treasure,Walls And Gates,Graphs,Medium,https://neetcode.io/problems/islands-and-treasure
+rotting-fruit,Rotting Oranges,Graphs,Medium,https://neetcode.io/problems/rotting-fruit
+pacific-atlantic-water-flow,Pacific Atlantic Water Flow,Graphs,Medium,https://neetcode.io/problems/pacific-atlantic-water-flow
+surrounded-regions,Surrounded Regions,Graphs,Medium,https://neetcode.io/problems/surrounded-regions
+course-schedule,Course Schedule,Graphs,Medium,https://neetcode.io/problems/course-schedule
+course-schedule-ii,Course Schedule II,Graphs,Medium,https://neetcode.io/problems/course-schedule-ii
+valid-tree,Graph Valid Tree,Graphs,Medium,https://neetcode.io/problems/valid-tree
+count-connected-components,Number of Connected Components In An Undirected Graph,Graphs,Medium,https://neetcode.io/problems/count-connected-components
+redundant-connection,Redundant Connection,Graphs,Medium,https://neetcode.io/problems/redundant-connection
+word-ladder,Word Ladder,Graphs,Hard,https://neetcode.io/problems/word-ladder
+network-delay-time,Network Delay Time,Advanced Graphs,Medium,https://neetcode.io/problems/network-delay-time
+reconstruct-flight-path,Reconstruct Itinerary,Advanced Graphs,Hard,https://neetcode.io/problems/reconstruct-flight-path
+min-cost-to-connect-points,Min Cost to Connect All Points,Advanced Graphs,Medium,https://neetcode.io/problems/min-cost-to-connect-points
+swim-in-rising-water,Swim In Rising Water,Advanced Graphs,Hard,https://neetcode.io/problems/swim-in-rising-water
+foreign-dictionary,Alien Dictionary,Advanced Graphs,Hard,https://neetcode.io/problems/foreign-dictionary
+cheapest-flight-path,Cheapest Flights Within K Stops,Advanced Graphs,Medium,https://neetcode.io/problems/cheapest-flight-path
+climbing-stairs,Climbing Stairs,1-D Dynamic Programming,Easy,https://neetcode.io/problems/climbing-stairs
+min-cost-climbing-stairs,Min Cost Climbing Stairs,1-D Dynamic Programming,Easy,https://neetcode.io/problems/min-cost-climbing-stairs
+house-robber,House Robber,1-D Dynamic Programming,Medium,https://neetcode.io/problems/house-robber
+house-robber-ii,House Robber II,1-D Dynamic Programming,Medium,https://neetcode.io/problems/house-robber-ii
+longest-palindromic-substring,Longest Palindromic Substring,1-D Dynamic Programming,Medium,https://neetcode.io/problems/longest-palindromic-substring
+palindromic-substrings,Palindromic Substrings,1-D Dynamic Programming,Medium,https://neetcode.io/problems/palindromic-substrings
+decode-ways,Decode Ways,1-D Dynamic Programming,Medium,https://neetcode.io/problems/decode-ways
+coin-change,Coin Change,1-D Dynamic Programming,Medium,https://neetcode.io/problems/coin-change
+maximum-product-subarray,Maximum Product Subarray,1-D Dynamic Programming,Medium,https://neetcode.io/problems/maximum-product-subarray
+word-break,Word Break,1-D Dynamic Programming,Medium,https://neetcode.io/problems/word-break
+longest-increasing-subsequence,Longest Increasing Subsequence,1-D Dynamic Programming,Medium,https://neetcode.io/problems/longest-increasing-subsequence
+partition-equal-subset-sum,Partition Equal Subset Sum,1-D Dynamic Programming,Medium,https://neetcode.io/problems/partition-equal-subset-sum
+count-paths,Unique Paths,2-D Dynamic Programming,Medium,https://neetcode.io/problems/count-paths
+longest-common-subsequence,Longest Common Subsequence,2-D Dynamic Programming,Medium,https://neetcode.io/problems/longest-common-subsequence
+buy-and-sell-crypto-with-cooldown,Best Time to Buy And Sell Stock With Cooldown,2-D Dynamic Programming,Medium,https://neetcode.io/problems/buy-and-sell-crypto-with-cooldown
+coin-change-ii,Coin Change II,2-D Dynamic Programming,Medium,https://neetcode.io/problems/coin-change-ii
+target-sum,Target Sum,2-D Dynamic Programming,Medium,https://neetcode.io/problems/target-sum
+interleaving-string,Interleaving String,2-D Dynamic Programming,Medium,https://neetcode.io/problems/interleaving-string
+longest-increasing-path-in-matrix,Longest Increasing Path In a Matrix,2-D Dynamic Programming,Hard,https://neetcode.io/problems/longest-increasing-path-in-matrix
+count-subsequences,Distinct Subsequences,2-D Dynamic Programming,Hard,https://neetcode.io/problems/count-subsequences
+edit-distance,Edit Distance,2-D Dynamic Programming,Medium,https://neetcode.io/problems/edit-distance
+burst-balloons,Burst Balloons,2-D Dynamic Programming,Hard,https://neetcode.io/problems/burst-balloons
+regular-expression-matching,Regular Expression Matching,2-D Dynamic Programming,Hard,https://neetcode.io/problems/regular-expression-matching
+maximum-subarray,Maximum Subarray,Greedy,Medium,https://neetcode.io/problems/maximum-subarray
+jump-game,Jump Game,Greedy,Medium,https://neetcode.io/problems/jump-game
+jump-game-ii,Jump Game II,Greedy,Medium,https://neetcode.io/problems/jump-game-ii
+gas-station,Gas Station,Greedy,Medium,https://neetcode.io/problems/gas-station
+hand-of-straights,Hand of Straights,Greedy,Medium,https://neetcode.io/problems/hand-of-straights
+merge-triplets-to-form-target,Merge Triplets to Form Target Triplet,Greedy,Medium,https://neetcode.io/problems/merge-triplets-to-form-target
+partition-labels,Partition Labels,Greedy,Medium,https://neetcode.io/problems/partition-labels
+valid-parenthesis-string,Valid Parenthesis String,Greedy,Medium,https://neetcode.io/problems/valid-parenthesis-string
+insert-new-interval,Insert Interval,Intervals,Medium,https://neetcode.io/problems/insert-new-interval
+merge-intervals,Merge Intervals,Intervals,Medium,https://neetcode.io/problems/merge-intervals
+non-overlapping-intervals,Non Overlapping Intervals,Intervals,Medium,https://neetcode.io/problems/non-overlapping-intervals
+meeting-schedule,Meeting Rooms,Intervals,Easy,https://neetcode.io/problems/meeting-schedule
+meeting-schedule-ii,Meeting Rooms II,Intervals,Medium,https://neetcode.io/problems/meeting-schedule-ii
+minimum-interval-including-query,Minimum Interval to Include Each Query,Intervals,Hard,https://neetcode.io/problems/minimum-interval-including-query
+rotate-matrix,Rotate Image,Math & Geometry,Medium,https://neetcode.io/problems/rotate-matrix
+spiral-matrix,Spiral Matrix,Math & Geometry,Medium,https://neetcode.io/problems/spiral-matrix
+set-zeroes-in-matrix,Set Matrix Zeroes,Math & Geometry,Medium,https://neetcode.io/problems/set-zeroes-in-matrix
+non-cyclical-number,Happy Number,Math & Geometry,Easy,https://neetcode.io/problems/non-cyclical-number
+plus-one,Plus One,Math & Geometry,Easy,https://neetcode.io/problems/plus-one
+pow-x-n,"Pow(x, n)",Math & Geometry,Medium,https://neetcode.io/problems/pow-x-n
+multiply-strings,Multiply Strings,Math & Geometry,Medium,https://neetcode.io/problems/multiply-strings
+count-squares,Detect Squares,Math & Geometry,Medium,https://neetcode.io/problems/count-squares
+single-number,Single Number,Bit Manipulation,Easy,https://neetcode.io/problems/single-number
+number-of-one-bits,Number of 1 Bits,Bit Manipulation,Easy,https://neetcode.io/problems/number-of-one-bits
+counting-bits,Counting Bits,Bit Manipulation,Easy,https://neetcode.io/problems/counting-bits
+reverse-bits,Reverse Bits,Bit Manipulation,Easy,https://neetcode.io/problems/reverse-bits
+missing-number,Missing Number,Bit Manipulation,Easy,https://neetcode.io/problems/missing-number
+sum-of-two-integers,Sum of Two Integers,Bit Manipulation,Medium,https://neetcode.io/problems/sum-of-two-integers
+reverse-integer,Reverse Integer,Bit Manipulation,Medium,https://neetcode.io/problems/reverse-integer

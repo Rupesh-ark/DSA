@@ -1,58 +1,69 @@
-# DSA Learning Project
+# NeetCode 150 Learning Project
 
-This repository is a place to practise data structures and algorithms in C++20.
-Each exercise is a small, standalone program so that the algorithm, tests, and
-complexity analysis stay together while the project is young.
+This repository turns the NeetCode 150 into a focused daily C++ practice system.
+It chooses the next problem, schedules reviews, and tracks consistency without
+hiding progress in an external service.
 
 ## Requirements
 
 - A C++ compiler with C++20 support
 - GNU Make
+- Python 3.11 or newer (standard library only)
 
-## Commands
+## Start a session
 
-See all project commands:
+See today's new problem and due reviews:
 
 ```sh
-make help
+make today
 ```
 
-List the available exercises:
+After the focused session, record the result interactively:
+
+```sh
+make log
+```
+
+Check overall progress:
+
+```sh
+make stats
+```
+
+The progress log is stored in `data/progress.json`. Commit it with completed
+exercise code to build a visible history of consistent practice.
+
+## Work with C++ exercises
+
+List existing exercises, or build and run one by its path below `exercises/`
+without the `.cpp` extension:
 
 ```sh
 make list
-```
-
-Build or run an exercise by its path below `exercises/`, without the `.cpp`
-extension:
-
-```sh
 make build EXERCISE=arrays/reverse_array
 make run EXERCISE=arrays/reverse_array
 ```
 
-Remove generated programs:
+Verify the tracker and every completed exercise:
 
 ```sh
-make clean
+make check
 ```
 
-## Suggested workflow
+See every available command with `make help`. Generated programs live in
+`build/` and can be removed with `make clean`.
 
-1. Restate the problem and work through a small example by hand.
-2. Write a straightforward solution before trying to optimise it.
-3. Add normal and edge-case tests.
-4. Record the time and space complexity.
-5. Explain why an improved solution is correct.
+## Daily workflow
 
-## Learning roadmap
+1. Run `make today` and open the suggested problem.
+2. Work through examples and a straightforward approach before coding.
+3. Use the stuck ladder in `ROADMAP.md` instead of immediately viewing a solution.
+4. Test the implementation and explain its time and space complexity.
+5. Run `make log`, then commit the solution and progress record.
 
-1. Arrays and strings
-2. Linked lists
-3. Stacks and queues
-4. Hash tables
-5. Recursion and backtracking
-6. Trees and heaps
-7. Graphs
-8. Sorting and searching
-9. Dynamic programming
+The first three Arrays & Hashing problems are also a diagnostic. They reveal
+whether extra C++ or Big-O practice is useful without delaying progress through
+the NeetCode 150.
+
+See `ROADMAP.md` for the 90-minute routine, XP rules, review schedule, learning
+levels, and coaching agreement.
