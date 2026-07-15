@@ -32,8 +32,8 @@ SESSION_FIELDS = {
 }
 KINDS = ("new", "review")
 OUTCOMES = ("attempted", "helped", "independent")
-YUGA_INGEST_URL = os.environ.get(
-    "YUGA_INGEST_URL", "https://roz.rupeshpandey.dev/api/v1/ingest/notes"
+ROZ_INGEST_URL = os.environ.get(
+    "ROZ_INGEST_URL", "https://roz.rupeshpandey.dev/api/v1/ingest/notes"
 )
 
 
@@ -455,14 +455,14 @@ def compose_yuga_note(catalogue: list[Problem], session: dict[str, Any]) -> str:
 
 def notify_yuga(catalogue: list[Problem], session: dict[str, Any]) -> None:
     """Best-effort note to Roz; a missing token or a dead network never blocks a session."""
-    token = os.environ.get("YUGA_INGEST_TOKEN", "").strip()
+    token = os.environ.get("ROZ_INGEST_TOKEN", "").strip()
     if not token:
         return
     body = json.dumps(
         {"text": compose_yuga_note(catalogue, session), "source": "dsa"}
     ).encode("utf-8")
     request = urllib.request.Request(
-        YUGA_INGEST_URL,
+        ROZ_INGEST_URL,
         data=body,
         headers={
             "Authorization": f"Bearer {token}",

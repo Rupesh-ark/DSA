@@ -221,7 +221,7 @@ class TrackerTests(unittest.TestCase):
         tracker.urllib.request.urlopen = opener
         try:
             environment = dict(tracker.os.environ)
-            tracker.os.environ.pop("YUGA_INGEST_TOKEN", None)
+            tracker.os.environ.pop("ROZ_INGEST_TOKEN", None)
             try:
                 tracker.notify_yuga(self.catalogue, session("2026-07-15"))
             finally:
@@ -236,7 +236,7 @@ class TrackerTests(unittest.TestCase):
         tracker.urllib.request.urlopen = Mock(side_effect=OSError("network down"))
         try:
             environment = dict(tracker.os.environ)
-            tracker.os.environ["YUGA_INGEST_TOKEN"] = "yuga_test"
+            tracker.os.environ["ROZ_INGEST_TOKEN"] = "yuga_test"
             try:
                 tracker.notify_yuga(self.catalogue, session("2026-07-15"))
             finally:
