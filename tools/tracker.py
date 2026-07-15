@@ -5,7 +5,9 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import subprocess
+import urllib.request
 from collections import Counter
 from dataclasses import dataclass
 from datetime import date, timedelta
@@ -30,6 +32,9 @@ SESSION_FIELDS = {
 }
 KINDS = ("new", "review")
 OUTCOMES = ("attempted", "helped", "independent")
+YUGA_INGEST_URL = os.environ.get(
+    "YUGA_INGEST_URL", "https://yuga.rupeshpandey.dev/api/v1/ingest/notes"
+)
 
 
 @dataclass(frozen=True)
@@ -431,6 +436,46 @@ def run_problem_tests(
     return result.returncode == 0
 
 
+def compose_yuga_note(catalogue: list[Problem], session: dict[str, Any]) -> str:
+    problem = next((p for p in catalogue if p.slug == session["problem"]), None)
+    title = problem.title if problem else session["problem"]
+    outcome_text = {
+        "independent": "solved independently",
+        "helped": "solved with help",
+        "attempted": "attempted",
+    }.get(session["outcome"], session["outcome"])
+    parts = [
+        f"{title} ({session['kind']}): {outcome_text} in {session['minutes']} min,"
+        f" tests {'passed' if session['tests_passed'] else 'did not pass'}."
+    ]
+    if session.get("takeaway"):
+        parts.append(f"Takeaway: {session['takeaway']}")
+    return " ".join(parts)
+
+
+def notify_yuga(catalogue: list[Problem], session: dict[str, Any]) -> None:
+    """Best-effort note to Yuga; a missing token or a dead network never blocks a session."""
+    token = os.environ.get("YUGA_INGEST_TOKEN", "").strip()
+    if not token:
+        return
+    body = json.dumps(
+        {"text": compose_yuga_note(catalogue, session), "source": "dsa"}
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        YUGA_INGEST_URL,
+        data=body,
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        urllib.request.urlopen(request, timeout=3).close()
+    except Exception as error:  # noqa: BLE001 - deliberately fire-and-forget
+        print(f"(Yuga not notified: {error})")
+
+
 def append_session(
     catalogue: list[Problem],
     progress: dict[str, Any],
@@ -441,6 +486,7 @@ def append_session(
     updated = {"version": 1, "sessions": [*progress["sessions"], session]}
     validate_progress(updated, catalogue)
     save_progress(updated, path)
+    notify_yuga(catalogue, session)
     return updated, calculate_xp(updated["sessions"]) - before_xp
 
 

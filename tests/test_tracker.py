@@ -204,6 +204,47 @@ class TrackerTests(unittest.TestCase):
             tracker.save_progress(progress, path)
             self.assertEqual(tracker.load_progress(self.catalogue, path), progress)
 
+    def test_yuga_note_reads_like_a_sentence(self) -> None:
+        note = tracker.compose_yuga_note(
+            self.catalogue,
+            {**session("2026-07-15"), "minutes": 34, "takeaway": "hash maps trade space for speed"},
+        )
+        self.assertEqual(
+            note,
+            "Contains Duplicate (new): solved independently in 34 min, tests passed."
+            " Takeaway: hash maps trade space for speed",
+        )
+
+    def test_yuga_notify_is_skipped_without_a_token(self) -> None:
+        opener = Mock(side_effect=AssertionError("must not touch the network"))
+        original = tracker.urllib.request.urlopen
+        tracker.urllib.request.urlopen = opener
+        try:
+            environment = dict(tracker.os.environ)
+            tracker.os.environ.pop("YUGA_INGEST_TOKEN", None)
+            try:
+                tracker.notify_yuga(self.catalogue, session("2026-07-15"))
+            finally:
+                tracker.os.environ.clear()
+                tracker.os.environ.update(environment)
+        finally:
+            tracker.urllib.request.urlopen = original
+        opener.assert_not_called()
+
+    def test_yuga_notify_failure_never_raises(self) -> None:
+        original = tracker.urllib.request.urlopen
+        tracker.urllib.request.urlopen = Mock(side_effect=OSError("network down"))
+        try:
+            environment = dict(tracker.os.environ)
+            tracker.os.environ["YUGA_INGEST_TOKEN"] = "yuga_test"
+            try:
+                tracker.notify_yuga(self.catalogue, session("2026-07-15"))
+            finally:
+                tracker.os.environ.clear()
+                tracker.os.environ.update(environment)
+        finally:
+            tracker.urllib.request.urlopen = original
+
 
 if __name__ == "__main__":
     unittest.main()
