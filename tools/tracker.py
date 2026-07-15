@@ -33,7 +33,7 @@ SESSION_FIELDS = {
 KINDS = ("new", "review")
 OUTCOMES = ("attempted", "helped", "independent")
 YUGA_INGEST_URL = os.environ.get(
-    "YUGA_INGEST_URL", "https://yuga.rupeshpandey.dev/api/v1/ingest/notes"
+    "YUGA_INGEST_URL", "https://roz.rupeshpandey.dev/api/v1/ingest/notes"
 )
 
 
@@ -454,7 +454,7 @@ def compose_yuga_note(catalogue: list[Problem], session: dict[str, Any]) -> str:
 
 
 def notify_yuga(catalogue: list[Problem], session: dict[str, Any]) -> None:
-    """Best-effort note to Yuga; a missing token or a dead network never blocks a session."""
+    """Best-effort note to Roz; a missing token or a dead network never blocks a session."""
     token = os.environ.get("YUGA_INGEST_TOKEN", "").strip()
     if not token:
         return
@@ -473,7 +473,7 @@ def notify_yuga(catalogue: list[Problem], session: dict[str, Any]) -> None:
     try:
         urllib.request.urlopen(request, timeout=3).close()
     except Exception as error:  # noqa: BLE001 - deliberately fire-and-forget
-        print(f"(Yuga not notified: {error})")
+        print(f"(Roz not notified: {error})")
 
 
 def append_session(
